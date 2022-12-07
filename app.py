@@ -7,7 +7,7 @@ def init():
     global model
     
     device = 0 if torch.cuda.is_available() else -1
-    model = pipeline('fill-mask', model='bert-base-uncased', device=device)
+    model = pipeline('text-generation', model='EleutherAI/gpt-neo-2.7B')
 
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
@@ -20,7 +20,7 @@ def inference(model_inputs:dict) -> dict:
         return {'message': "No prompt provided"}
     
     # Run the model
-    result = model(prompt)
+    result = model(prompt, min_length=50)
 
     # Return the results as a dictionary
     return result
